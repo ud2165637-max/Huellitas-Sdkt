@@ -190,7 +190,7 @@
 <div class="video-container">
   
 <h2>Video de Cómo cuidar y respetar a los animales :</h2>
-<p>De click en el siguiente enlace</p>
+<p>De click en el siguiente  video</p>
 
 <iframe width="560" height="315"
         src="https://www.youtube.com/embed/hnmlon-vagE"
@@ -199,49 +199,84 @@
         allowfullscreen>
 </iframe>
 
+<!-- JUEGO ADIVINA EL ANIMAL -->
+<section id="juego2">
+    <h2>🎮 Juego: ¡Adivina el Animal! 🐾</h2>
+    <p>Observa la imagen borrosa y elige la opción correcta.</p>
 
+    <div style="text-align:center;">
+        <img id="imgAnimal" src="" style="width:50%; border-radius:15px; filter: blur(12px); margin-bottom:20px;">
+    </div>
 
+    <div id="opciones" style="text-align:center; font-size:18px;"></div>
 
+    <h3 id="resultado" style="text-align:center; color:#463622; margin-top:20px;"></h3>
 
-
-            <!-- JUEGO DE ANIMALES -->
-<section id="juego">
-    <h2>🎮 Mini Juego: ¡Encuentra al Animal! 🐾</h2>
-    <p>Haz clic en el botón para descubrir qué animal aparece.</p>
-
-    <button onclick="mostrarAnimal()" style="
-        padding: 10px 20px; 
-        background:#463622; 
-        color:white; 
-        font-size:16px; 
-        border:none; 
-        border-radius:8px;
-        cursor:pointer;">
-        Descubrir animal
+    <button onclick="nuevoJuego()" style="
+        padding: 10px 20px;
+        background:#463622;
+        color:white;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        margin-top:20px;
+        font-size:18px;">
+        Jugar nuevamente
     </button>
 
-    <div id="animal-box" style="margin-top:20px; text-align:center;"></div>
-
     <script>
-        function mostrarAnimal() {
-            const animales = [
-                { nombre: "Perrito 🐶", img: "https://placedog.net/500/300" },
-                { nombre: "Gatito 🐱", img: "https://placekitten.com/500/300" },
-                { nombre: "Conejo 🐰", img: "https://cdn.pixabay.com/photo/2016/04/01/10/02/rabbit-1307672_960_720.png" },
-                { nombre: "Panda 🐼", img: "https://cdn.pixabay.com/photo/2017/01/06/17/49/panda-1959721_960_720.png" },
-                { nombre: "Zorrito 🦊", img: "https://cdn.pixabay.com/photo/2017/02/01/10/39/fox-2022764_960_720.png" }
-            ];
+        const animalesJuego = [
+            {
+                nombre: "Perrito",
+                img: "https://placedog.net/500/300"
+            },
+            {
+                nombre: "Gatito",
+                img: "https://placekitten.com/500/300"
+            },
+            {
+                nombre: "Conejo",
+                img: "https://cdn.pixabay.com/photo/2016/04/01/10/02/rabbit-1307672_960_720.png"
+            }
+        ];
 
-            const random = animales[Math.floor(Math.random() * animales.length)];
+        function nuevoJuego() {
+            document.getElementById("resultado").textContent = "";
 
-            document.getElementById("animal-box").innerHTML =
-                `<h3>${random.nombre}</h3>
-                <img src="${random.img}" style="width:60%; border-radius:10px;">`;
+            const random = animalesJuego[Math.floor(Math.random() * animalesJuego.length)];
+
+            document.getElementById("imgAnimal").src = random.img;
+
+            let opciones = animalesJuego
+                .map(a => a.nombre)
+                .sort(() => Math.random() - 0.5);
+
+            document.getElementById("opciones").innerHTML = `
+                <button onclick="verificar('${opciones[0]}', '${random.nombre}')" style="margin:10px;">${opciones[0]}</button>
+                <button onclick="verificar('${opciones[1]}', '${random.nombre}')" style="margin:10px;">${opciones[1]}</button>
+                <button onclick="verificar('${opciones[2]}', '${random.nombre}')" style="margin:10px;">${opciones[2]}</button>
+            `;
         }
+
+        function verificar(eleccion, correcto) {
+            const r = document.getElementById("resultado");
+
+            if (eleccion === correcto) {
+                r.textContent = "¡Correcto! 🎉🐾";
+            } else {
+                r.textContent = "Ups… Inténtalo otra vez 😿";
+            }
+        }
+
+        nuevoJuego();
     </script>
 </section>
 
 
+
+
+
+         
            
         
   <footer>
@@ -255,6 +290,7 @@
         </footer>
 </body>
 </html>
+
 
 
 
