@@ -210,9 +210,7 @@
     <p>Observa la imagen borrosa y elige la opción correcta.</p>
 
     <!-- PUNTAJE -->
-    <h3 style="text-align:center; color:#463622;">Puntaje: 
-        <span id="puntaje">0</span>
-    </h3>
+    <h3>Puntaje: <span id="puntos">0</span></h3>
 
     <div style="text-align:center;">
         <img id="imgAnimal" src="" style="width:50%; border-radius:15px; filter: blur(12px); margin-bottom:20px;">
@@ -234,13 +232,15 @@
         Jugar nuevamente
     </button>
 
-    <!-- SONIDOS -->
-    <audio id="sonidoBien" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4a2e5c59c5.mp3?filename=correct-2-46134.mp3"></audio>
-    <audio id="sonidoMal" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1f03f06abb.mp3?filename=error-2-46134.mp3"></audio>
-
     <script>
-        let puntaje = 0;
+        // SONIDOS
+        const sonidoCorrecto = new Audio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_d3a3bcd3f7.mp3?filename=correct-2-46134.mp3");
+        const sonidoIncorrecto = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_b439f7e96b.mp3?filename=error-126627.mp3");
 
+        // PUNTAJE
+        let puntos = 0;
+
+        // ANIMALES DEL JUEGO
         const animalesJuego = [
             {
                 nombre: "Perrito",
@@ -256,10 +256,14 @@
             }
         ];
 
+        let respuestaCorrecta = "";
+
         function nuevoJuego() {
             document.getElementById("resultado").textContent = "";
 
             const random = animalesJuego[Math.floor(Math.random() * animalesJuego.length)];
+            respuestaCorrecta = random.nombre;
+
             document.getElementById("imgAnimal").src = random.img;
 
             let opciones = animalesJuego
@@ -267,34 +271,31 @@
                 .sort(() => Math.random() - 0.5);
 
             document.getElementById("opciones").innerHTML = `
-                <button onclick="verificar('${opciones[0]}', '${random.nombre}')" style="margin:10px;">${opciones[0]}</button>
-                <button onclick="verificar('${opciones[1]}', '${random.nombre}')" style="margin:10px;">${opciones[1]}</button>
-                <button onclick="verificar('${opciones[2]}', '${random.nombre}')" style="margin:10px;">${opciones[2]}</button>
+                <button onclick="verificar('${opciones[0]}')" style="margin:10px;">${opciones[0]}</button>
+                <button onclick="verificar('${opciones[1]}')" style="margin:10px;">${opciones[1]}</button>
+                <button onclick="verificar('${opciones[2]}')" style="margin:10px;">${opciones[2]}</button>
             `;
         }
 
-        function verificar(eleccion, correcto) {
+        function verificar(eleccion) {
             const r = document.getElementById("resultado");
-            const sonidoBien = document.getElementById("sonidoBien");
-            const sonidoMal = document.getElementById("sonidoMal");
 
-            if (eleccion === correcto) {
+            if (eleccion === respuestaCorrecta) {
                 r.textContent = "¡Correcto! 🎉🐾";
-                sonidoBien.play();
-
-                puntaje++;
-                document.getElementById("puntaje").textContent = puntaje;
-
+                sonidoCorrecto.play();
+                puntos++;
             } else {
                 r.textContent = "Ups… Inténtalo otra vez 😿";
-                sonidoMal.play();
+                sonidoIncorrecto.play();
+                if (puntos > 0) puntos--;
             }
+
+            document.getElementById("puntos").textContent = puntos;
         }
 
         nuevoJuego();
     </script>
 </section>
-
 
 
 
@@ -312,6 +313,7 @@
         </footer>
 </body>
 </html>
+
 
 
 
